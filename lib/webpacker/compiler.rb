@@ -1,4 +1,3 @@
-require "open3"
 require "digest/sha1"
 
 class Webpacker::Compiler
@@ -19,7 +18,7 @@ class Webpacker::Compiler
   def compile
     if stale?
       record_compilation_digest
-      run_webpack
+      webpack_runner.run
     else
       true
     end
@@ -50,21 +49,8 @@ class Webpacker::Compiler
       compilation_digest_path.write(watched_files_digest)
     end
 
-    def run_webpack
-      logger.info "Compiling…"
-      ENV["RAILS_ENV"] ||= ENV["RACK_ENV"] || "development"
-      ENV["NODE_ENV"] ||= ENV["RAILS_ENV"]
-
-      success = Webpacker::WebpackRunner.run([])
-      # sterr, stdout, status = Open3.capture3(webpack_env, "#{RbConfig.ruby} ./bin/webpack")
-
-      if success
-        logger.info "Compiled all packs in #{config.public_output_path}"
-      else
-        logger.error "Compilation failed:\n#{sterr}\n#{stdout}"
-      end
-
-      success
+    def webpack_runner
+      @webpack_runner ||= Webpacker::WebpackRunner.new(webpacker: @webpacker)
     end
 
     def default_watched_paths
