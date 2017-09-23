@@ -6,7 +6,7 @@ module Webpacker
   class Runner
     delegate :config, :logger, to: :@webpacker
 
-    def self.run(argv)
+    def self.run(argv: [], root)
       $stdout.sync = true
 
       new(argv: argv).run

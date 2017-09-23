@@ -1,9 +1,9 @@
 class Webpacker::Instance
   cattr_accessor(:logger) { ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new(STDOUT)) }
 
-  attr_reader :root_path, :config_path
+  # attr_reader :root_path, :config_path
 
-  def initialize(root_path: Rails.root, config_path: Rails.root.join("config/webpacker.yml"))
+  def initialize(root_path: nil, config_path: nil)
     @root_path, @config_path = root_path, config_path
   end
 
@@ -11,6 +11,14 @@ class Webpacker::Instance
     (ENV["NODE_ENV"].presence_in(available_environments) ||
       Rails.env.presence_in(available_environments) ||
         "production".freeze).inquiry
+  end
+
+  def root_path
+    @root_path ||= File.expand_path(".", Dir.pwd)
+  end
+
+  def config_path
+    @config_path ||= root_path.join("config/webpacker.yml")
   end
 
   def config
