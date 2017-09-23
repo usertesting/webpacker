@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "webpacker"
+require "webpacker/instance"
 require "webpacker/webpack_runner"
 
 Webpacker::WebpackRunner.run(ARGV)
