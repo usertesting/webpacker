@@ -13,6 +13,7 @@ module Webpacker
     end
 
     def initialize(argv: nil, webpacker: nil)
+      require "debug"
       @argv = argv || []
       @webpacker = webpacker || Webpacker::Instance.new
       set_global_env
