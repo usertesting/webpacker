@@ -4,6 +4,7 @@ class Webpacker::Instance
   # attr_reader :root_path, :config_path
 
   def initialize(root_path: nil, config_path: nil)
+    binding.pry
     @root_path, @config_path = root_path, config_path
   end
 
