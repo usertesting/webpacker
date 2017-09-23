@@ -11,7 +11,7 @@ module Webpacker
       new(argv: argv).run
     end
 
-    def initialize(argv: argv, webpacker: webpacker)
+    def initialize(argv: nil, webpacker: nil)
       @argv = argv || []
       @webpacker = webpacker || Webpacker::Instance.new
       set_global_env
