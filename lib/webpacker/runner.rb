@@ -1,3 +1,4 @@
+require "webpacker/instance"
 require "shellwords"
 require "open3"
 
