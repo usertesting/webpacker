@@ -1,8 +1,11 @@
 #!/usr/bin/env ruby
 
-ENV["RAILS_ENV"] ||= ENV["RACK_ENV"] || "development"
-ENV["NODE_ENV"] ||= ENV["RAILS_ENV"]
-
+require "rails"
+require "active_support/core_ext/hash/indifferent_access"
 require "webpacker"
+require "webpacker/instance"
 require "webpacker/dev_server_runner"
+
+ENV["RAILS_ROOT"] ||= File.expand_path(".", Dir.pwd)
+
 Webpacker::DevServerRunner.run(ARGV)

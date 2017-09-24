@@ -19,10 +19,13 @@ module Webpacker
 end
 
 require "webpacker/instance"
+require "webpacker/webpack_runner"
 require "webpacker/configuration"
 require "webpacker/manifest"
 require "webpacker/compiler"
 require "webpacker/commands"
 require "webpacker/dev_server"
+require "webpacker/runner"
+require "webpacker/webpack_runner"
 
 require "webpacker/railtie" if defined?(Rails)

@@ -1,4 +1,3 @@
-require "open3"
 require "digest/sha1"
 
 class Webpacker::Compiler
@@ -10,7 +9,7 @@ class Webpacker::Compiler
   # Webpacker::Compiler.env['FRONTEND_API_KEY'] = 'your_secret_key'
   mattr_accessor(:env) { {} }
 
-  delegate :config, :logger, to: :@webpacker
+  delegate :config, :logger, :webpack_runner, to: :@webpacker
 
   def initialize(webpacker)
     @webpacker = webpacker
@@ -51,17 +50,7 @@ class Webpacker::Compiler
     end
 
     def run_webpack
-      logger.info "Compiling…"
-
-      sterr, stdout, status = Open3.capture3(webpack_env, "#{RbConfig.ruby} ./bin/webpack")
-
-      if status.success?
-        logger.info "Compiled all packs in #{config.public_output_path}"
-      else
-        logger.error "Compilation failed:\n#{sterr}\n#{stdout}"
-      end
-
-      status.success?
+      webpack_runner.run
     end
 
     def default_watched_paths

@@ -17,6 +17,14 @@ class Webpacker::Configuration
     fetch(:compile)
   end
 
+  def env_config_path
+    root_path.join("config/webpack/#{env}.js")
+  end
+
+  def node_modules_path
+    root_path.join("node_modules")
+  end
+
   def source_path
     root_path.join(fetch(:source_path))
   end

@@ -1,22 +1,40 @@
+require "shellwords"
+require "open3"
+
 module Webpacker
   class Runner
+    delegate :root_path, :config_path, :logger, :dev_server, :config, to: :@webpacker
+
     def self.run(argv)
       $stdout.sync = true
-
-      new(argv).run
+      new(argv: argv).run
     end
 
-    def initialize(argv)
-      @argv = argv
+    def initialize(argv: nil, webpacker: nil)
+      @argv = argv || []
+      @webpacker = webpacker || load_webpacker
+    end
 
-      @app_path          = File.expand_path(".", Dir.pwd)
-      @node_modules_path = File.join(@app_path, "node_modules")
-      @webpack_config    = File.join(@app_path, "config/webpack/#{ENV["NODE_ENV"]}.js")
+    def node_env
+      ENV["NODE_ENV"] ||= rails_env
+    end
 
-      unless File.exist?(@webpack_config)
-        puts "Webpack config #{@webpack_config} not found, please run 'bundle exec rails webpacker:install' to install webpacker with default configs or add the missing config file for your custom environment."
-        exit!
-      end
+    def rails_env
+      ENV["RAILS_ENV"] ||= ENV.fetch("RACK_ENV", Rails.env)
+    end
+
+    private
+
+    def load_webpacker
+      Webpacker::Instance.new(root_path: ENV["RAILS_ROOT"])
+    end
+
+    def escaped_node_modules_path
+      Shellwords.escape(config.node_modules_path)
+    end
+
+    def escaped_env_config_path
+      Shellwords.escape(config.env_config_path)
     end
   end
 end
