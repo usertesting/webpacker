@@ -19,6 +19,7 @@ module Webpacker
 end
 
 require "webpacker/instance"
+require "webpacker/webpack_runner"
 require "webpacker/configuration"
 require "webpacker/manifest"
 require "webpacker/compiler"

@@ -7,6 +7,7 @@ class Webpacker::DevServer
 
   def initialize(webpacker)
     @webpacker = webpacker
+    exit_missing_env_config! unless File.exist?(config.env_config_path)
   end
 
   def running?
@@ -41,6 +42,12 @@ class Webpacker::DevServer
   end
 
   private
+
+    def exit_missing_env_config!
+      puts "Webpack config #{config.env_config_path} not found, please run 'bundle exec rails webpacker:install' to install webpacker with default configs or add the missing config file for your custom environment."
+      exit!
+    end
+
     def fetch(key)
       config.dev_server.fetch(key, defaults[key])
     end

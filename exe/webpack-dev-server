@@ -1,9 +1,11 @@
 #!/usr/bin/env ruby
 
+require "rails"
+require "active_support/core_ext/hash/indifferent_access"
 require "webpacker"
 require "webpacker/instance"
 require "webpacker/dev_server_runner"
 
-require "debug"
+ENV["RAILS_ROOT"] ||= File.expand_path(".", Dir.pwd)
 
 Webpacker::DevServerRunner.run(ARGV)

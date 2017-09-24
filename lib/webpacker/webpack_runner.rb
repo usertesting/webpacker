@@ -1,3 +1,5 @@
+require "webpacker/runner"
+
 module Webpacker
   class WebpackRunner < Webpacker::Runner
 
@@ -17,12 +19,10 @@ module Webpacker
       status.success?
     end
 
-    def escaped_node_modules_path
-      Shellwords.escape(config.node_modules_path)
-    end
+    private
 
-    def escaped_env_config_path
-      Shellwords.escape(config.env_config_path)
+    def load_webpacker
+      Webpacker::Instance.new(root_path: ENV["RAILS_ROOT"], webpack_runner: self)
     end
   end
 end

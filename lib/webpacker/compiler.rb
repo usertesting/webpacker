@@ -9,7 +9,7 @@ class Webpacker::Compiler
   # Webpacker::Compiler.env['FRONTEND_API_KEY'] = 'your_secret_key'
   mattr_accessor(:env) { {} }
 
-  delegate :config, :logger, to: :@webpacker
+  delegate :config, :logger, :webpack_runner, to: :@webpacker
 
   def initialize(webpacker)
     @webpacker = webpacker
@@ -18,7 +18,7 @@ class Webpacker::Compiler
   def compile
     if stale?
       record_compilation_digest
-      webpack_runner.run
+      run_webpack
     else
       true
     end
@@ -49,8 +49,8 @@ class Webpacker::Compiler
       compilation_digest_path.write(watched_files_digest)
     end
 
-    def webpack_runner
-      @webpack_runner ||= Webpacker::WebpackRunner.new(webpacker: @webpacker)
+    def run_webpack
+      webpack_runner.run
     end
 
     def default_watched_paths

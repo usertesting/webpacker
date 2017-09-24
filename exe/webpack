@@ -1,7 +1,11 @@
 #!/usr/bin/env ruby
 
+require "rails"
+require "active_support/core_ext/hash/indifferent_access"
 require "webpacker"
 require "webpacker/instance"
 require "webpacker/webpack_runner"
+
+ENV["RAILS_ROOT"] ||= File.expand_path(".", Dir.pwd)
 
 Webpacker::WebpackRunner.run(ARGV)
