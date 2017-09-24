@@ -133,6 +133,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.12)
   byebug
+  concurrent-ruby
   minitest (~> 5.0)
   rack-proxy
   rails
