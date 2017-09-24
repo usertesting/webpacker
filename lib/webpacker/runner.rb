@@ -8,7 +8,6 @@ module Webpacker
     def self.run(argv)
       $stdout.sync = true
       new(argv: argv).run
-      # runner.run if runner.valid?
     end
 
     def initialize(argv: nil, webpacker: nil)
@@ -36,11 +35,6 @@ module Webpacker
 
     def escaped_env_config_path
       Shellwords.escape(config.env_config_path)
-    end
-
-    def set_global_env
-      ENV["RAILS_ENV"] ||= ENV["RACK_ENV"] || @webpacker.env
-      ENV["NODE_ENV"]  ||= ENV["RAILS_ENV"]
     end
   end
 end
